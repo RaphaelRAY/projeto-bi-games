@@ -29,7 +29,8 @@ projeto-bi-games/
 ├── sql/                    # Queries SQL para conferência
 │   └── create_view.sql     # Código da View criada no BigQuery
 ├── notebooks/              # Jupyter Notebooks para testes e exploração
-│   └── analise_exploratoria.ipynb
+│   ├── 1_importar_dados_bq.ipynb
+│   └── 2_consultas_bq.ipynb
 ├── src/                    # O "coração" do projeto
 │   └── main.py             # Script que carrega dados e gerencia a View no BQ
 ├── docs/                   # Documentação, apresentações e prints
