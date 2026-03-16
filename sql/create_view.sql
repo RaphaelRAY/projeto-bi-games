@@ -1,5 +1,5 @@
 -- View no BigQuery para consolidar os dados do Mercado de Games
--- Requisito 4: Processo para criar a view via Python com nomes formatados
+-- Requisito 4: Processo para criar a view via Python com nomes formatados (Versão Mega)
 
 CREATE OR REPLACE VIEW `directed-mender-489100-m3.games_data.vw_analise_games` AS
 SELECT
@@ -8,11 +8,15 @@ SELECT
     g.released AS data_lancamento,
     g.rating AS nota_usuarios,
     g.metacritic AS nota_critica,
+    g.playtime AS tempo_jogo_horas,
+    g.ratings_count AS qtd_avaliacoes,
+    g.reviews_count AS qtd_reviews,
     p.publisher_name AS distribuidora,
     gen.genre_name AS genero,
     plat.platform_name AS plataforma,
     m.completability_index AS indice_conclusao,
-    m.consensus_score AS score_consenso
+    m.consensus_score AS score_consenso,
+    m.time_rating_ratio AS relacao_tempo_nota
 FROM
     `directed-mender-489100-m3.games_data.games` g
 LEFT JOIN

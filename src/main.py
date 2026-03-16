@@ -19,11 +19,15 @@ def create_view():
         g.released AS data_lancamento,
         g.rating AS nota_usuarios,
         g.metacritic AS nota_critica,
+        g.playtime AS tempo_jogo_horas,
+        g.ratings_count AS qtd_avaliacoes,
+        g.reviews_count AS qtd_reviews,
         p.publisher_name AS distribuidora,
         gen.genre_name AS genero,
         plat.platform_name AS plataforma,
         m.completability_index AS indice_conclusao,
-        m.consensus_score AS score_consenso
+        m.consensus_score AS score_consenso,
+        m.time_rating_ratio AS relacao_tempo_nota
     FROM
         `{PROJECT_ID}.{DATASET_ID}.games` g
     LEFT JOIN
