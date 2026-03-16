@@ -1,26 +1,25 @@
--- View no BigQuery para consolidar os dados
+-- View no BigQuery para consolidar os dados do Mercado de Games
+-- Requisito 4: Processo para criar a view via Python com nomes formatados
 
-CREATE OR REPLACE VIEW `seu_projeto.seu_dataset.vw_games_consolidados` AS
+CREATE OR REPLACE VIEW `directed-mender-489100-m3.games_data.vw_analise_games` AS
 SELECT
-    g.game_id,
-    g.name,
-    g.release_date,
-    p.publisher_name,
-    m.metascore,
-    m.user_score
+    g.id AS game_id,
+    g.name AS nome_jogo,
+    g.released AS data_lancamento,
+    g.rating AS nota_usuarios,
+    g.metacritic AS nota_critica,
+    p.publisher_name AS distribuidora,
+    gen.genre_name AS genero,
+    plat.platform_name AS plataforma,
+    m.completability_index AS indice_conclusao,
+    m.consensus_score AS score_consenso
 FROM
-    `seu_projeto.seu_dataset.games` g
+    `directed-mender-489100-m3.games_data.games` g
 LEFT JOIN
-    `seu_projeto.seu_dataset.game_publishers` p ON g.game_id = p.game_id
+    `directed-mender-489100-m3.games_data.game_publishers` p ON CAST(g.id AS STRING) = CAST(p.game_id AS STRING)
 LEFT JOIN
-    `seu_projeto.seu_dataset.game_metacritic_platforms` m ON g.game_id = m.game_id
--- Adicionar os demais JOINs conforme as 8 tabelas definidas:
--- 1. games
--- 2. game_metacritic_platforms
--- 3. game_publishers
--- 4. game_stores
--- 5. game_derived_metrics
--- 6. game_ratings
--- 7. game_genres
--- 8. game_platforms
-;
+    `directed-mender-489100-m3.games_data.game_genres` gen ON CAST(g.id AS STRING) = CAST(gen.game_id AS STRING)
+LEFT JOIN
+    `directed-mender-489100-m3.games_data.game_platforms` plat ON CAST(g.id AS STRING) = CAST(plat.game_id AS STRING)
+LEFT JOIN
+    `directed-mender-489100-m3.games_data.game_derived_metrics` m ON CAST(g.id AS STRING) = CAST(m.game_id AS STRING);
