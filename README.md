@@ -46,8 +46,9 @@ Para rodar os processos diretamente no navegador via Google Colab:
 
 ## Como Rodar Localmente
 1. **Instale as dependências**: `pip install -r requirements.txt`
-2. **Execute o processo**:
+3. **Execução:**
+   - Execute o script para criar o dataset `games_analytics` e a View formatada:
    ```bash
    python src/main.py
    ```
-3. **Dashboard**: Conecte o BigQuery no Looker Studio e aponte para a View `vw_analise_games`.
+4. **Visualização**: Conecte o BigQuery no Looker Studio e selecione o dataset **`games_analytics`** para acessar a View `vw_analise_games`.

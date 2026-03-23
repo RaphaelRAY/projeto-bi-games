@@ -1,7 +1,8 @@
 -- View no BigQuery para consolidar os dados do Mercado de Games
--- Requisito 4: Processo para criar a view via Python com nomes formatados (Versão Mega)
+-- Arquitetura: Camada Analytics (Silver/Gold) separada da Camada Raw (Bronze)
+-- Requisito 4: Processo para criar a view via Python
 
-CREATE OR REPLACE VIEW `directed-mender-489100-m3.games_data.vw_analise_games` AS
+CREATE OR REPLACE VIEW `directed-mender-489100-m3.games_analytics.vw_analise_games` AS
 SELECT
     g.id AS game_id,
     g.name AS nome_jogo,
