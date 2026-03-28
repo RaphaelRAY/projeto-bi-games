@@ -10,8 +10,6 @@ SELECT
     g.rating AS nota_usuarios,
     g.metacritic AS nota_critica,
     g.playtime AS tempo_jogo_horas,
-    g.ratings_count AS qtd_avaliacoes,
-    g.reviews_count AS qtd_reviews,
     p.publisher_name AS distribuidora,
     gen.genre_name AS genero,
     plat.platform_name AS plataforma,
@@ -39,8 +37,6 @@ SELECT
     g.rating AS nota_usuarios,
     g.metacritic AS nota_critica,
     g.playtime AS tempo_jogo_horas,
-    g.ratings_count AS qtd_avaliacoes,
-    g.reviews_count AS qtd_reviews,
     -- Agrupamos tudo que pode ter mais de um valor por jogo
     STRING_AGG(DISTINCT p.publisher_name, ", ") AS distribuidoras,
     STRING_AGG(DISTINCT plat.platform_name, ", ") AS plataformas,
@@ -55,4 +51,4 @@ LEFT JOIN `directed-mender-489100-m3.games_data.game_publishers` p ON CAST(g.id 
 LEFT JOIN `directed-mender-489100-m3.games_data.game_platforms` plat ON CAST(g.id AS STRING) = CAST(plat.game_id AS STRING)
 LEFT JOIN `directed-mender-489100-m3.games_data.game_genres` gen ON CAST(g.id AS STRING) = CAST(gen.game_id AS STRING)
 LEFT JOIN `directed-mender-489100-m3.games_data.game_derived_metrics` m ON CAST(g.id AS STRING) = CAST(m.game_id AS STRING)
-GROUP BY 1, 2, 3, 4, 5, 6, 7, 8;
+GROUP BY 1, 2, 3, 4, 5, 6;
