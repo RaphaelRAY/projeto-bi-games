@@ -8,7 +8,7 @@ DATASET_RAW = "games_data"             # Dataset com as tabelas originais (Bronz
 DATASET_ANALYTICS = "games_analytics"   # Dataset para a Visão Final (Silver/Gold)
 
 def create_view():
-    """Cria ou substitui uma View no BigQuery unindo as tabelas principais em um dataset separado."""
+    """Lê o arquivo SQL e cria as Views no BigQuery."""
     client = bigquery.Client(project=PROJECT_ID)
     
     # Garante que o dataset de analytics existe
@@ -19,40 +19,19 @@ def create_view():
         print(f"Criando dataset {DATASET_ANALYTICS}...")
         client.create_dataset(bigquery.Dataset(dataset_ref))
 
-    view_id = f"{PROJECT_ID}.{DATASET_ANALYTICS}.vw_analise_games"
+    # Caminho do arquivo SQL
+    sql_file_path = os.path.join(os.path.dirname(__file__), "..", "sql", "create_view.sql")
     
-    sql_view = f"""
-    CREATE OR REPLACE VIEW `{view_id}` AS
-    SELECT
-        g.id AS game_id,
-        g.name AS nome_jogo,
-        g.released AS data_lancamento,
-        g.rating AS nota_usuarios,
-        g.metacritic AS nota_critica,
-        g.playtime AS tempo_jogo_horas,
-        g.playtime AS tempo_jogo_horas,
-        p.publisher_name AS distribuidora,
-        gen.genre_name AS genero,
-        plat.platform_name AS plataforma,
-        m.completability_index AS indice_conclusao,
-        m.consensus_score AS score_consenso,
-        m.time_rating_ratio AS relacao_tempo_nota
-    FROM
-        `{PROJECT_ID}.{DATASET_RAW}.games` g
-    LEFT JOIN
-        `{PROJECT_ID}.{DATASET_RAW}.game_publishers` p ON CAST(g.id AS STRING) = CAST(p.game_id AS STRING)
-    LEFT JOIN
-        `{PROJECT_ID}.{DATASET_RAW}.game_genres` gen ON CAST(g.id AS STRING) = CAST(gen.game_id AS STRING)
-    LEFT JOIN
-        `{PROJECT_ID}.{DATASET_RAW}.game_platforms` plat ON CAST(g.id AS STRING) = CAST(plat.game_id AS STRING)
-    LEFT JOIN
-        `{PROJECT_ID}.{DATASET_RAW}.game_derived_metrics` m ON CAST(g.id AS STRING) = CAST(m.game_id AS STRING)
-    """
+    with open(sql_file_path, "r", encoding="utf-8") as f:
+        sql_script = f.read()
+
+    print(f"Executando script SQL de: {sql_file_path}")
     
-    # Executa o comando de criação da View
-    query_job = client.query(sql_view)
+    # Executa o script (pode conter múltiplas declarações)
+    query_job = client.query(sql_script)
     query_job.result()
-    print(f"✅ View {view_id} criada com sucesso no BigQuery!")
+    
+    print(f"✅ Views criadas/atualizadas com sucesso no projeto {PROJECT_ID}")
 
 def load_data_to_bq():
     # Esta função pode ser expandida se houver novos dados locais
