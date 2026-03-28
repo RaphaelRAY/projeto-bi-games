@@ -51,4 +51,8 @@ Para rodar os processos diretamente no navegador via Google Colab:
    ```bash
    python src/main.py
    ```
-4. **Visualização**: Conecte o BigQuery no Looker Studio e selecione o dataset **`games_analytics`** para acessar a View `vw_analise_games`.
+4. **Visualização e BI:** Conecte o BigQuery no Looker Studio. O projeto oferece duas visões no dataset **`games_analytics`**:
+   - `vw_analise_games`: Visão detalhada para filtros de plataforma/gênero.
+   - `vw_analise_games_unica`: Visão consolidada (1 linha por jogo) para Scorecards e Médias.
+
+Para um roteiro completo de como montar seu dashboard, consulte o [Plano de Dashboard](docs/plano_dashboard_looker.md).
